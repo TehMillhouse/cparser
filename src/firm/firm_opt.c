@@ -368,6 +368,7 @@ static opt_config_t opts[] = {
 	IRG("reassociation",     optimize_reassociation,   "reassociation",                                         OPT_FLAG_NONE),
 	IRG("remove-confirms",   remove_confirms,          "confirm removal",                                       OPT_FLAG_HIDE_OPTIONS | OPT_FLAG_NO_DUMP | OPT_FLAG_NO_VERIFY),
 	IRG("remove-phi-cycles", remove_phi_cycles,        "removal of phi cycles",                                 OPT_FLAG_HIDE_OPTIONS),
+	IRG("remove-phi-sccs",   opt_remove_unnecessary_phi_sccs, "removal of unnecessary phi SCCs",                OPT_FLAG_NONE),
 	IRG("scalar-replace",    scalar_replacement_opt,   "scalar replacement",                                    OPT_FLAG_NONE),
 	IRG("shape-blocks",      shape_blocks,             "block shaping",                                         OPT_FLAG_NONE),
 	IRG("thread-jumps",      opt_jumpthreading,        "path-sensitive jumpthreading",                          OPT_FLAG_NONE),
@@ -497,6 +498,7 @@ static void enable_safe_defaults(void)
 	set_opt_enabled("ivopts", true);
 	set_opt_enabled("dead", true);
 	set_opt_enabled("remove-phi-cycles", true);
+	set_opt_enabled("remove-phi-sccs", true);
 	set_opt_enabled("frame", true);
 	set_opt_enabled("combo", true);
 	set_opt_enabled("invert-loops", true);
@@ -598,6 +600,7 @@ static void do_firm_optimizations(void)
 		do_irg_opt(irg, "bool");
 		do_irg_opt(irg, "shape-blocks");
 		do_irg_opt(irg, "ivopts");
+		do_irg_opt(irg, "remove-phi-sccs");
 		do_irg_opt(irg, "local");
 		do_irg_opt(irg, "dead");
 	}
