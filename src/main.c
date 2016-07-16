@@ -3,6 +3,7 @@
  * Copyright (C) 2012 Matthias Braun <matze@braunis.de>
  */
 #include <errno.h>
+#include <time.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -306,6 +307,10 @@ int action_compile(const char *argv0)
 
 int main(int argc, char **argv)
 {
+	clock_t begin, end;
+	double time_spent;
+	begin = clock();
+
 	init_temp_files();
 	init_driver();
 	init_default_driver();
@@ -371,5 +376,13 @@ int main(int argc, char **argv)
 	exit_driver();
 	exit_default_driver();
 	exit_temp_files();
+
+
+	end = clock();
+	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+	FILE *f = fopen("./PHIS", "a");
+	fprintf(f, "FILE took %f seconds\n", (float) time_spent);
+	fclose(f);
+
 	return ret;
 }
