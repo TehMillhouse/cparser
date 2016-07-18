@@ -600,7 +600,11 @@ static void do_firm_optimizations(void)
 		do_irg_opt(irg, "bool");
 		do_irg_opt(irg, "shape-blocks");
 		do_irg_opt(irg, "ivopts");
+
+		// ensure there are no trivial phis left we're accidentally counting
+		do_irg_opt(irg, "local");
 		do_irg_opt(irg, "remove-phi-sccs");
+
 		do_irg_opt(irg, "local");
 		do_irg_opt(irg, "dead");
 	}
